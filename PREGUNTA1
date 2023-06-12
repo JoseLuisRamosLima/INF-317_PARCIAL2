@@ -1,1 +1,175 @@
+-- Crear la tabla Clientes
+CREATE TABLE Clientes (
+    ID INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Email VARCHAR(50),
+    Telefono VARCHAR(15)
+);
 
+-- Insertar registros en la tabla Clientes
+INSERT INTO Clientes (ID, Nombre, Email, Telefono)
+VALUES
+    (1, 'Juan Perez', 'juan@example.com', '1234567890'),
+    (2, 'María García', 'maria@example.com', '0987654321'),
+    (3, 'Carlos Rodríguez', 'carlos@example.com', '9876543210'),
+    (4, 'Laura Torres', 'laura@example.com', '4567890123'),
+    (5, 'Luisa Ramirez', 'luisa@example.com', '2109876543'),
+    (6, 'Pedro Sanchez', 'pedro@example.com', '1111111111'),
+    (7, 'Ana Lopez', 'ana@example.com', '2222222222'),
+    (8, 'Mario González', 'mario@example.com', '3333333333'),
+    (9, 'Sofía Hernández', 'sofia@example.com', '4444444444'),
+    (10, 'Andrés Herrera', 'andres@example.com', '5555555555');
+
+-- Crear la tabla Productos
+CREATE TABLE Productos (
+    ID INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Precio DECIMAL(10, 2),
+    Stock INT
+);
+
+-- Insertar registros en la tabla Productos
+INSERT INTO Productos (ID, Nombre, Precio, Stock)
+VALUES
+    (1, 'Camiseta', 19.99, 100),
+    (2, 'Pantalón', 29.99, 50),
+    (3, 'Zapatos', 49.99, 20),
+    (4, 'Bolso', 39.99, 30),
+    (5, 'Sombrero', 9.99, 50),
+    (6, 'Bufanda', 14.99, 80),
+    (7, 'Gorra', 9.99, 70),
+    (8, 'Calcetines', 4.99, 100),
+    (9, 'Reloj', 79.99, 10),
+    (10, 'Collar', 24.99, 40);
+
+-- Crear la tabla Pedidos
+CREATE TABLE Pedidos (
+    ID INT PRIMARY KEY,
+    ClienteID INT,
+    FechaPedido DATE,
+    Total DECIMAL(10, 2),
+    FOREIGN KEY (ClienteID) REFERENCES Clientes(ID)
+);
+
+-- Insertar registros en la tabla Pedidos
+INSERT INTO Pedidos (ID, ClienteID, FechaPedido, Total)
+VALUES
+    (1, 1, '2023-05-01', 59.98),
+    (2, 2, '2023-05-02', 49.99),
+    (3, 3, '2023-05-03', 89.97),
+    (4, 4, '2023-05-04', 29.99),
+    (5, 5, '2023-05-05', 19.99),
+    (6, 6, '2023-05-06', 44.97),
+    (7, 7, '2023-05-07', 29.99),
+    (8, 8, '2023-05-08', 24.97),
+    (9, 9, '2023-05-09', 59.98),
+    (10, 10, '2023-05-10', 79.99);
+
+-- Crear la tabla DetallesPedido
+CREATE TABLE DetallesPedido (
+    ID INT PRIMARY KEY,
+    PedidoID INT,
+    ProductoID INT,
+    Cantidad INT,
+    PrecioUnitario DECIMAL(10, 2),
+    FOREIGN KEY (PedidoID) REFERENCES Pedidos(ID),
+    FOREIGN KEY (ProductoID) REFERENCES Productos(ID)
+);
+
+-- Insertar registros en la tabla DetallesPedido
+INSERT INTO DetallesPedido (ID, PedidoID, ProductoID, Cantidad, PrecioUnitario)
+VALUES
+    (1, 1, 1, 2, 19.99),
+    (2, 2, 2, 1, 29.99),
+    (3, 3, 3, 3, 49.99),
+    (4, 4, 4, 1, 39.99),
+    (5, 5, 5, 2, 9.99),
+    (6, 6, 6, 1, 14.99),
+    (7, 7, 7, 2, 9.99),
+    (8, 8, 8, 3, 4.99),
+    (9, 9, 9, 1, 79.99),
+    (10, 10, 10, 2, 24.99);
+
+-- Crear la tabla Categorias
+CREATE TABLE Categorias (
+    ID INT PRIMARY KEY,
+    Nombre VARCHAR(50)
+);
+
+-- Insertar registros en la tabla Categorias
+INSERT INTO Categorias (ID, Nombre)
+VALUES
+    (1, 'Ropa'),
+    (2, 'Calzado'),
+    (3, 'Accesorios'),
+    (4, 'Joyas'),
+    (5, 'Electrónica');
+
+-- Crear la tabla Proveedores
+CREATE TABLE Proveedores (
+    ID INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Direccion VARCHAR(100),
+    Telefono VARCHAR(15)
+);
+
+-- Insertar registros en la tabla Proveedores
+INSERT INTO Proveedores (ID, Nombre, Direccion, Telefono)
+VALUES
+    (1, 'Proveedor 1', 'Calle 1, Ciudad 1', '1111111111'),
+    (2, 'Proveedor 2', 'Calle 2, Ciudad 2', '2222222222'),
+    (3, 'Proveedor 3', 'Calle 3, Ciudad 3', '3333333333'),
+    (4, 'Proveedor 4', 'Calle 4, Ciudad 4', '4444444444'),
+    (5, 'Proveedor 5', 'Calle 5, Ciudad 5', '5555555555');
+
+-- Crear la tabla Ventas
+CREATE TABLE Ventas (
+    ID INT PRIMARY KEY,
+    ProductoID INT,
+    FechaVenta DATE,
+    Cantidad INT,
+    PrecioUnitario DECIMAL(10, 2),
+    Total DECIMAL(10, 2),
+    FOREIGN KEY (ProductoID) REFERENCES Productos(ID)
+);
+
+-- Insertar registros en la tabla Ventas
+INSERT INTO Ventas (ID, ProductoID, FechaVenta, Cantidad, PrecioUnitario, Total)
+VALUES
+    (1, 1, '2023-05-01', 2, 19.99, 39.98),
+    (2, 2, '2023-05-02', 1, 29.99, 29.99),
+    (3, 3, '2023-05-03', 3, 49.99, 149.97),
+    (4, 4, '2023-05-04', 1, 39.99, 39.99),
+    (5, 5, '2023-05-05', 2, 9.99, 19.98),
+    (6, 6, '2023-05-06', 1, 14.99, 14.99),
+    (7, 7, '2023-05-07', 2, 9.99, 19.98),
+    (8, 8, '2023-05-08', 3, 4.99, 14.97),
+    (9, 9, '2023-05-09', 1, 79.99, 79.99),
+    (10, 10, '2023-05-10', 2, 24.99, 49.98);
+
+-- Crear la tabla Empleados
+CREATE TABLE Empleados (
+    ID INT PRIMARY KEY,
+    Nombre VARCHAR(50),
+    Cargo VARCHAR(50),
+    FechaContrato DATE,
+    Salario DECIMAL(10, 2)
+);
+
+-- Insertar registros en la tabla Empleados
+INSERT INTO Empleados (ID, Nombre, Cargo, FechaContrato, Salario)
+VALUES
+    (1, 'Empleado 1', 'Vendedor', '2020-01-01', 2000.00),
+    (2, 'Empleado 2', 'Cajero', '2019-05-01', 1800.00),
+    (3, 'Empleado 3', 'Gerente', '2018-03-01', 3000.00),
+    (4, 'Empleado 4', 'Vendedor', '2021-02-01', 2200.00),
+    (5, 'Empleado 5', 'Cajero', '2022-04-01', 1900.00),
+    (6, 'Empleado 6', 'Vendedor', '2021-07-01', 2100.00),
+    (7, 'Empleado 7', 'Cajero', '2020-09-01', 1850.00),
+    (8, 'Empleado 8', 'Gerente', '2017-06-01', 3200.00),
+    (9, 'Empleado 9', 'Vendedor', '2022-03-01', 2300.00),
+    (10, 'Empleado 10', 'Cajero', '2019-11-01', 1950.00);
+
+
+select *
+from Proveedores
